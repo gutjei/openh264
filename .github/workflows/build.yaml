@@ -90,6 +90,17 @@ jobs:
       - run: nasm -v
       - run: c++ --version
       - run: USE_CPP=No STATIC=yes CFLAGS=-Werror make -j$(sysctl -n hw.ncpu) all plugin test
+      - run: ls -la
+      - run: ls -la ./build
+      - name: Upload static library
+        uses: actions/upload-artifact@v4
+        with:
+          name: openh264-macos
+          path: |
+            ./libopenh264.a
+            ./builddir/libopenh264.a
+            ./build/libopenh264.a
+            **/libopenh264.a
       - run: meson builddir --werror
       - run: ninja -C builddir -v
       - run: meson test -C builddir -v
